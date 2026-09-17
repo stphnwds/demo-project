@@ -29,6 +29,49 @@ copy .env.example .env # Windows Command Prompt
 This command creates a copy of `.env.example` and names it `.env`, allowing you to configure your environment variables specific to your setup.
 
 
+## Yahtzee Dice Game
+
+A small, self-contained dice game lives in `src/yahtzee/`. Play it with:
+
+```bash
+python -m src.yahtzee                  # prompts for player names
+python -m src.yahtzee Alice Bob        # two players
+python -m src.yahtzee Solo --seed 42   # repeatable dice, handy for debugging
+```
+
+### Rules
+
+Thirteen rounds. Each turn you roll five dice, then reroll any of them up to twice
+more, keeping the dice you like between rolls. You then write the roll into one of
+the thirteen categories — each can only be used once, so a bad roll sometimes means
+taking a zero somewhere.
+
+| Category | Scores |
+| --- | --- |
+| Ones … Sixes | Total of the dice showing that face |
+| Three / Four of a Kind | Total of all five dice, if three (or four) match |
+| Full House | 25, for three of one face and two of another |
+| Small Straight | 30, for four consecutive faces |
+| Large Straight | 40, for five consecutive faces |
+| Yahtzee | 50, for five of a kind |
+| Chance | Total of all five dice |
+
+Score 63 or more across the upper section (Ones through Sixes) and you get a 35
+point bonus. Highest total after thirteen rounds wins; ties are shared.
+
+### Layout
+
+```
+src/yahtzee
+├── dice.py       <- rolling, holding, and the three-roll limit
+├── scoring.py    <- the thirteen categories and the score card
+├── game.py       <- turns, rounds, and standings (no I/O)
+└── cli.py        <- the terminal interface
+```
+
+Run the tests with `pytest tests`.
+
+
 ## Project Organization
 
 ```
